@@ -1,6 +1,8 @@
-/*
- Class Region
-*/
+#ifndef REGION_HPP
+#define REGION_HPP
+
+#include "listofpoint2d.hpp"
+#include <iostream>
 
 namespace image {
 	class Region{
@@ -10,7 +12,12 @@ namespace image {
 		ListOfPoint2D points;		
 	public:
 		Region();
-		void showRegion();
+		void addPoint(const Point2D& point);
+		void setId(int _id);
+		void showRegion() const;
+		int getSize() const;
         virtual ~Region(); 		
 	};
 }
+
+#endif 

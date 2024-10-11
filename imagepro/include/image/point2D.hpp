@@ -1,6 +1,5 @@
-/*
- Class Point2D
-*/
+#ifndef POINT2D_HPP
+#define POINT2D_HPP
 
 
 namespace image {
@@ -18,3 +17,5 @@ namespace image {
         virtual ~Point2D(); 		
 	};
 }
+
+#endif 

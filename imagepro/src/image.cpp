@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cassert>
 #include <cstring>
+#include <memory>
 
 namespace image{
 
@@ -51,6 +52,49 @@ namespace image{
             }
             std::cout<<std::endl;
         }
+    }
+    std::list<std::shared_ptr<Region>> Image::getRegions() {
+        std::list<std::shared_ptr<Region>> regions;
+        bool* visited = new bool[width * height](); // Inicializamos un array de booleanos para marcar los píxeles visitados
+
+        int currentRegionId = 1;
+
+        for (int row = 0; row < height; ++row) {
+            for (int col = 0; col < width; ++col) {
+                // Verificamos si el píxel pertenece a un objeto (valor 1) y si no ha sido visitado
+                if (data[row * width + col] == 1 && !visited[row * width + col]) {
+                    // Nueva región encontrada
+                    std::shared_ptr<Region> region = std::make_shared<Region>();
+                    region->setId(currentRegionId++);
+                    exploreRegion(row, col, visited, *region);
+                    regions.push_back(region);
+                }
+            }
+        }
+
+        delete[] visited; // Liberamos la memoria usada para el array de booleanos
+        return regions;
+    }
+
+    // Método auxiliar para explorar una región
+    void Image::exploreRegion(int row, int col, bool* visited, Region& region) {
+        // Verificamos si la posición está fuera de los límites de la imagen
+        if (row < 0 || col < 0 || row >= height || col >= width) return;
+
+        // Si el píxel ya ha sido visitado o no pertenece a un objeto, retornamos
+        if (data[row * width + col] == 0 || visited[row * width + col]) return;
+
+        // Marcamos el píxel como visitado
+        visited[row * width + col] = true;
+
+        // Añadimos el punto a la región
+        region.addPoint(Point2D(col, row));
+
+        // Exploramos los píxeles vecinos (arriba, abajo, izquierda, derecha)
+        exploreRegion(row - 1, col, visited, region);
+        exploreRegion(row + 1, col, visited, region);
+        exploreRegion(row, col - 1, visited, region);
+        exploreRegion(row, col + 1, visited, region);
     }
 
     Image::~Image(){

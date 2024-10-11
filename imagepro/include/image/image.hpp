@@ -1,8 +1,6 @@
-/**
- * Class Image
- */
-
 #include <string>
+#include <list>
+#include "region.hpp"
 
 namespace image {
 	class Image; 
@@ -22,7 +20,8 @@ namespace image {
 		void threshold(); 
     	int getValue(int row, int col);
 		void show();
-		//ListOfRegions getRegions()
+		std::list<std::shared_ptr<Region>> getRegions();
+		void exploreRegion(int row, int col, bool* visites, Region& region);
         virtual ~Image(); 
 		static Image* readImage(std::string &path);        
 	};
