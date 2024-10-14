@@ -14,6 +14,10 @@ namespace image {
         id = _id;
     }
 
+    int Region::getId() const {
+        return id;  
+    }
+
     void Region::showRegion() const{
         std::cout << "Region ID:" << id << ", size: " << size << std::endl;
         points.showPoints();

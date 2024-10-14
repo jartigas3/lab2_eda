@@ -58,11 +58,11 @@ int main(int nargs, char** vargs) {
             iss >> temp >> imgName;
 
             if (images.find(imgName) != images.end()) {
-                std::list<std::shared_ptr<image::Region>> regions = images[imgName]->getRegions();
+                image::ListOfRegion& regions = images[imgName]->getRegions();
                 std::cout << "La imagen " << imgName << " tiene " << regions.size() << " regiones." << std::endl;
 
                 int regionId = 1;
-                for (const auto& region : regions) {
+                for (const auto& region : regions.getAllRegions()) {
                     std::cout << "Region " << regionId << " -> Tamaño: " << region->getSize() << std::endl;
                     ++regionId;
                 }
@@ -78,12 +78,12 @@ int main(int nargs, char** vargs) {
             iss >> temp >> imgName >> regionId;
 
             if (images.find(imgName) != images.end()) {
-                std::list<std::shared_ptr<image::Region>> regions = images[imgName]->getRegions();
+                image::ListOfRegion& regions = images[imgName]->getRegions();
+                
+                std::shared_ptr<image::Region> region = regions.getRegionById(regionId);
 
-                if (regionId > 0 && regionId <= regions.size()) {
-                    auto it = regions.begin();
-                    std::advance(it, regionId - 1);
-                    (*it)->showRegion();  // Corregido: desreferenciar puntero inteligente
+                if (region != nullptr) {
+                    region->showRegion();
                 } else {
                     std::cout << "ID de región inválido para la imagen " << imgName << std::endl;
                 }

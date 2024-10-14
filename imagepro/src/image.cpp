@@ -53,26 +53,25 @@ namespace image{
             std::cout<<std::endl;
         }
     }
-    std::list<std::shared_ptr<Region>> Image::getRegions() {
-        std::list<std::shared_ptr<Region>> regions;
-        bool* visited = new bool[width * height](); // Inicializamos un array de booleanos para marcar los píxeles visitados
+    
+    ListOfRegion& Image::getRegions() {
+        if (regions.getRegionById(1) == nullptr) { // Si no se ha calculado ninguna región
+            bool* visited = new bool[width * height](); // Inicializamos un array de booleanos para marcar los píxeles visitados
+            int currentRegionId = 1;
 
-        int currentRegionId = 1;
-
-        for (int row = 0; row < height; ++row) {
-            for (int col = 0; col < width; ++col) {
-                // Verificamos si el píxel pertenece a un objeto (valor 1) y si no ha sido visitado
-                if (data[row * width + col] == 1 && !visited[row * width + col]) {
-                    // Nueva región encontrada
-                    std::shared_ptr<Region> region = std::make_shared<Region>();
-                    region->setId(currentRegionId++);
-                    exploreRegion(row, col, visited, *region);
-                    regions.push_back(region);
+            for (int row = 0; row < height; ++row) {
+                for (int col = 0; col < width; ++col) {
+                    if (data[row * width + col] == 1 && !visited[row * width + col]) {
+                        std::shared_ptr<Region> region = std::make_shared<Region>();
+                        region->setId(currentRegionId++);
+                        exploreRegion(row, col, visited, *region);
+                        regions.addRegion(region);
+                    }
                 }
             }
-        }
 
-        delete[] visited; // Liberamos la memoria usada para el array de booleanos
+            delete[] visited; // Liberamos la memoria usada para el array de booleanos
+        }
         return regions;
     }
 

@@ -16,6 +16,7 @@ namespace image {
 		void setId(int _id);
 		void showRegion() const;
 		int getSize() const;
+		int getId() const;
         virtual ~Region(); 		
 	};
 }
