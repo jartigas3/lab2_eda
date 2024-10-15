@@ -2,6 +2,7 @@
 #define LISTOFPOINT2D_HPP
 
 #include "point2D.hpp"
+#include <vector>
 #include <iostream>
 
 namespace image {
@@ -19,6 +20,7 @@ namespace image {
 		ListOfPoint2D();
 		void addPoint(const Point2D& point);
 		void showPoints() const;
+		std::vector<Point2D> getPoints() const;
 		~ListOfPoint2D();
 	};
 }

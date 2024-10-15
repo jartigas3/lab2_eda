@@ -1,5 +1,6 @@
 #include "image/listofpoint2d.hpp"
 #include "image/point2D.hpp"
+#include <vector>
 
 namespace image {
     ListOfPoint2D::ListOfPoint2D() : head(nullptr){
@@ -27,6 +28,16 @@ namespace image {
             temp = temp->next;
         }
         std::cout << std::endl;
+    }
+
+    std::vector<Point2D> ListOfPoint2D::getPoints() const {
+        std::vector<Point2D> points;
+        Node* temp = head;
+        while (temp) {
+            points.push_back(temp->point);
+            temp = temp->next;
+        }
+        return points;
     }
 
     ListOfPoint2D::~ListOfPoint2D(){
